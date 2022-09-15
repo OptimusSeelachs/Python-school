@@ -10,6 +10,11 @@ class Knoten(object):
     def getVorgaenger(self):
         return self.vorgaenger
 
+    def incGewicht(self, inc:int):
+        if self.gewicht == "u":
+            self.gewicht = inc
+            
+
 
 
 class Graph(object):
@@ -68,11 +73,7 @@ class Graph(object):
                 nachbarn.append(kante[1])
         return nachbarn
 
-    def incGewicht(self, nameKnoten:str, inc:int):
-        for knoten in self.KnotenMenge:
-            if knoten.name == nameKnoten:
-                if knoten.gewicht == "u":
-                    knoten.gewicht = inc
+    
 
 
 g = Graph()
@@ -86,7 +87,7 @@ g.addKante("C","B")
 g.addKante("B","D")
 g.addKante("D","E")
 g.addKante("A","B")
-
+g.addKante("B","C")
 def getVerbindung():
     for knoten in g.getAlleKnoten():
         print(knoten.name, ":", g.getAlleNachbarn(knoten.name))
@@ -98,8 +99,6 @@ def shortestPath(nameStartKnoten:str, nameEndKnoten:str):
         N = [Knoten(nameStartKnoten, 0)]           
         U = g.getAlleKnoten()
         
-       
-
         while len(N) > 0:
             
             x = N[0]
@@ -107,14 +106,13 @@ def shortestPath(nameStartKnoten:str, nameEndKnoten:str):
 
             for nachbar in nachbarn:
                 y = g.getKnoten(nachbar)
-                
-                
+                    
                 if nachbar == nameEndKnoten:               
-                    g.incGewicht(nachbar, x.gewicht+1)
+                    y.incGewicht(x.gewicht+1)
                     y.addVorgaenger(x.name)
                     A.append(g.getKnoten(nameEndKnoten))
                 elif y.gewicht == 'u':
-                    g.incGewicht(nachbar, x.gewicht+1)
+                    y.incGewicht(x.gewicht+1)
                     y.addVorgaenger(x.name)
                     N.append(y)
             A.append(x)

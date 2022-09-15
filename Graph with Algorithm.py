@@ -1,3 +1,5 @@
+import random
+
 class Knoten(object):
     def __init__(self, name, gewicht):
         self.name = name
@@ -13,10 +15,14 @@ class Knoten(object):
     def incGewicht(self, inc:int):
         if self.gewicht == "u":
             self.gewicht = inc
+    
+    def setName(self, randomName:int):
+        self.name = randomName
+        return self.name
+
+    def getName(self):
+        return self.name
             
-
-
-
 class Graph(object):
     def __init__(self):
         self.KnotenMenge = []
@@ -141,7 +147,16 @@ def shortestPath(nameStartKnoten:str, nameEndKnoten:str):
                     print(path[i])
 
 
-shortestPath("A","E")
+shortestPath("B","A")
 
+def randomGraph(anzahlKnoten:int):
+    for i in range(anzahlKnoten+1):
+        if i == 0:
+            continue
+        else:
+            g.addKnoten(i, "u")
+        
+
+randomGraph(50)
 
      

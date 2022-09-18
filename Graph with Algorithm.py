@@ -1,3 +1,4 @@
+
 import random
 
 class Knoten(object):
@@ -6,7 +7,7 @@ class Knoten(object):
         self.gewicht = gewicht 
         self.vorgaenger = []
 
-    def addVorgaenger(self, vorgaengerName:str):
+    def addVorgaenger(self, vorgaengerName:int):
         self.vorgaenger.append(vorgaengerName)
         
     def getVorgaenger(self):
@@ -31,24 +32,24 @@ class Graph(object):
     def getAlleKnoten(self):
         return self.KnotenMenge
 
-    def existiertKnoten(self, nameKnoten:str):
+    def existiertKnoten(self, nameKnoten:int):
         for knoten in self.KnotenMenge:
             if knoten == nameKnoten:
                 return True
             else:
                 return False
 
-    def addKnoten(self, nameKnoten:str, gewichtKnoten:str):
+    def addKnoten(self, nameKnoten:int, gewichtKnoten:int):
         k = Knoten(nameKnoten,gewichtKnoten)
         self.KnotenMenge.append(k)
        
 
-    def getKnoten(self, nameKnoten:str):
+    def getKnoten(self, nameKnoten:int):
         for knoten in self.KnotenMenge:
             if knoten.name == nameKnoten:
                 return knoten
 
-    def delKnoten(self, nameKnoten:str):
+    def delKnoten(self, nameKnoten:int):
         for knoten in self.KnotenMenge:
             if knoten.name == nameKnoten:
                 self.KnotenMenge.remove(nameKnoten)
@@ -56,23 +57,23 @@ class Graph(object):
                 print("Kein Knoten mit diesem Namen")
     
 
-    def existiertKante(self, nameStartKnoten:str, nameZielKnoten:str):
+    def existiertKante(self, nameStartKnoten:int, nameZielKnoten:int):
         for kante in self.KantenMenge:
             if kante[0] == nameStartKnoten and kante[1] == nameZielKnoten:
                 return True
             else:
                 return False
 
-    def addKante(self, nameStartKnoten:str, nameZielKnoten:str):
+    def addKante(self, nameStartKnoten:int, nameZielKnoten:int):
         self.KantenMenge.append([nameStartKnoten , nameZielKnoten])
 
-    def delKante(self, nameStartKnoten:str, nameZielKnoten:str):
+    def delKante(self, nameStartKnoten:int, nameZielKnoten:int):
         for kante in self.KantenMenge:
             if kante[0] == nameStartKnoten and kante[1] == nameZielKnoten:
                 self.KantenMenge.remove(kante)
 
 
-    def getAlleNachbarn(self, nameKnoten:str):
+    def getAlleNachbarn(self, nameKnoten:int):
         nachbarn = []
         for kante in self.KantenMenge:
             if kante[0] == nameKnoten:
@@ -80,27 +81,33 @@ class Graph(object):
         return nachbarn
 
     
-
-
 g = Graph()
-g.addKnoten("A","u")
-g.addKnoten("B","u")
-g.addKnoten("C","u")
-g.addKnoten("D","u")
-g.addKnoten("E","u")
-g.addKante("C","A")
-g.addKante("C","B")
-g.addKante("B","D")
-g.addKante("D","E")
-g.addKante("A","B")
-g.addKante("B","C")
+
 def getVerbindung():
     for knoten in g.getAlleKnoten():
         print(knoten.name, ":", g.getAlleNachbarn(knoten.name))
 
+def randomGraph(anzahlKnoten:int):
+    for i in range(anzahlKnoten+1):
+        if i == 0:
+            continue
+        else:
+            g.addKnoten(i, "u")
+    for knoten in g.KnotenMenge:
+        for i in range(round((len(g.KnotenMenge)+1)/2)):
+            if i+1 == anzahlKnoten:
+                break
+            x = random.choice([0,1])
+            if x == 1:
+                g.addKante(knoten.name, i+1)
+            else:
+                continue
 
+    print(g.KantenMenge)
+    print(g.KnotenMenge)
+randomGraph(10)
 
-def shortestPath(nameStartKnoten:str, nameEndKnoten:str):
+def shortestPath(nameStartKnoten:int, nameEndKnoten:int):
         A = []
         N = [Knoten(nameStartKnoten, 0)]           
         U = g.getAlleKnoten()
@@ -142,21 +149,9 @@ def shortestPath(nameStartKnoten:str, nameEndKnoten:str):
             print("Route:")
             for i in range(len(path)-1,-1,-1):
                 if i>0:
-                    print(path[i]+"->", end="")
+                    print(str(path[i])+"->", end="")
                 else:
                     print(path[i])
 
+shortestPath(2,6)
 
-shortestPath("B","A")
-
-def randomGraph(anzahlKnoten:int):
-    for i in range(anzahlKnoten+1):
-        if i == 0:
-            continue
-        else:
-            g.addKnoten(i, "u")
-        
-
-randomGraph(50)
-
-     

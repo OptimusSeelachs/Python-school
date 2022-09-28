@@ -95,8 +95,8 @@ def randomGraph(anzahlKnoten:int):
         for i in range(len(g.KnotenMenge)):
             if i+1 == anzahlKnoten:
                 break
-            #elif knoten[0] == i:
-            #    continue
+            elif knoten.name == i+1:
+                continue
             else:
                 y = random.randint(0,11)
                 g.addKante(knoten.name, i+1, y)

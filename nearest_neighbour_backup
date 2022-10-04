@@ -1,20 +1,31 @@
 import random
 
 class Knoten(object):
-    def __init__(self, name, gewicht):
+    def __init__(self, name, xKoordinate, yKoordinate):
         self.name = name
-        self.gewicht = gewicht 
+        self.x = xKoordinate
+        self.y = yKoordinate 
         self.vorgaenger = []
+
+    def getX(self):
+        return self.x
+
+    def setX(self, neuesX:int):
+        self.x = neuesX
+        return self.x
+
+    def getY(self):
+        return self.y
+    
+    def setY(self, neuesY:int):
+        self.y = neuesY
+        return self.y
 
     def addVorgaenger(self, vorgaengerName:int):
         self.vorgaenger.append(vorgaengerName)
         
     def getVorgaenger(self):
         return self.vorgaenger
-
-    def incGewicht(self, inc:int):
-        if self.gewicht == "u":
-            self.gewicht = inc
     
     def setName(self, randomName:int):
         self.name = randomName
@@ -38,8 +49,8 @@ class Graph(object):
             else:
                 return False
 
-    def addKnoten(self, nameKnoten:int, gewichtKnoten:int):
-        k = Knoten(nameKnoten,gewichtKnoten)
+    def addKnoten(self, nameKnoten:int, xKoordinate:int, yKoordinate:int):
+        k = Knoten(nameKnoten, xKoordinate, yKoordinate)
         self.KnotenMenge.append(k)
        
 
@@ -63,8 +74,11 @@ class Graph(object):
             else:
                 return False
 
-    def addKante(self, nameStartKnoten:int, nameZielKnoten:int, laenge:int):
-        self.KantenMenge.append([nameStartKnoten , nameZielKnoten, laenge])
+    def addKante(self, nameStartKnoten:Knoten, nameZielKnoten:Knoten):
+        laenge = ((nameStartKnoten.x - nameZielKnoten.x) ** 2 + (nameStartKnoten.y - nameZielKnoten.y) ** 2) ** (0.5)
+        self.KantenMenge.append([nameStartKnoten.name , nameZielKnoten.name, laenge])
+
+        print(laenge)
 
 
 
@@ -90,8 +104,12 @@ def getVerbindung():
         print(knoten.name, ":", g.getAlleNachbarn(knoten.name))
 
 def randomGraph(anzahlKnoten:int):
+
     for i in range(anzahlKnoten):
-        g.addKnoten(i, "u")
+        xKoordinate = random.randint(0,100)
+        yKoordinate = random.randint(0,100)
+        g.addKnoten(i, xKoordinate, yKoordinate)
+
     for knoten in g.KnotenMenge:
         for i in range(len(g.KnotenMenge)):
             if i+1 == anzahlKnoten:
@@ -99,8 +117,7 @@ def randomGraph(anzahlKnoten:int):
             elif knoten.name >= i+1:
                 continue
             else:
-                y = random.randint(0,11)
-                g.addKante(knoten.name, i+1, y)
+                g.addKante(g.KnotenMenge[knoten.name], g.KnotenMenge[i+1])
 
     print(g.KantenMenge)
     print(g.KnotenMenge)
@@ -115,4 +132,4 @@ def nearestNeighbour(g:Graph,startKnoten:int):
         pass
     print(g.KnotenMenge)
     
-nearestNeighbour(g,0)
+#nearestNeighbour(g,0)

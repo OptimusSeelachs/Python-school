@@ -130,23 +130,17 @@ def randomGraph(anzahlKnoten:int):
 randomGraph(10)
 
 def nearestNeighbour(g:Graph,startKnoten:int):
-    A = [startKnoten]
-    erster = startKnoten
-    besuchteKnoten = [startKnoten]
+
+    hamiltonKreis = [startKnoten]
     fremdeKnoten = g.getAlleKnoten()
     naesterNachbar = 0
-    
 
     for i in range(len(fremdeKnoten)-1):
-        kuerzesterWeg = 100
-        print(len(besuchteKnoten))
-        print(startKnoten)
+        kuerzesterWeg = 10000
         nachbarn = g.getAlleNachbarn(startKnoten)
-       # del nachbarn('2')
 
         for nachbarKnoten in nachbarn:
             print(nachbarKnoten)
-            print(nachbarKnoten[2])
             if kuerzesterWeg > nachbarKnoten[2] and nachbarKnoten[3] == False:
                 kuerzesterWeg = nachbarKnoten[2]
                 if nachbarKnoten[0] == startKnoten:
@@ -156,20 +150,12 @@ def nearestNeighbour(g:Graph,startKnoten:int):
                 print(kuerzesterWeg)
             nachbarKnoten[3] = True
 
-        A.append(naesterNachbar)
-        print(startKnoten)
-        print(kuerzesterWeg)
-        print(nachbarKnoten[3])
-        print(A)
-        #print(int(besuchteKnoten[startKnoten]))
-       # fremdeKnoten = []
-       # besuchteKnoten.pop(0)
-        #print(len(besuchteKnoten))
+        hamiltonKreis.append(naesterNachbar)
 
         startKnoten = naesterNachbar
 
-    A.append(erster)
-    print(A)
+    hamiltonKreis.append(hamiltonKreis[0])
+    print(hamiltonKreis)
     
 nearestNeighbour(g,2)
 
